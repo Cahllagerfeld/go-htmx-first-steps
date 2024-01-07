@@ -1,0 +1,16 @@
+package view
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/pkg/layout"
+
+templ Hello(name string) {
+	@layout.Base() {
+		<div>Hello, { name }</div>
+		<button hx-post="/click" hx-swap="outerHTML">Click me</button>
+	}
+}
+
+templ Clicked(name string) {
+	<div>Clicked!</div>
+	<x-test></x-test>
+	<my-modal></my-modal>
+}
