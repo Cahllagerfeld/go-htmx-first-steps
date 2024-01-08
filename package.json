@@ -1,0 +1,16 @@
+{
+  "name": "go-htmx-first-steps",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --watch",
+    "build": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
