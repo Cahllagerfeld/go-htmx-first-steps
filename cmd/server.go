@@ -23,6 +23,11 @@ func main() {
 		return component.Render(context.Background(), c.Response().Writer)
 	})
 
+	e.GET("/about", func(c echo.Context) error {
+		component := view.Hello("Tester")
+		return component.Render(context.Background(), c.Response().Writer)
+	})
+
 	e.POST("/click", func(c echo.Context) error {
 		component := view.Clicked("Tester")
 		return component.Render(context.Background(), c.Response().Writer)
