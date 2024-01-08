@@ -3,3 +3,6 @@ dist/tailwind.css
 
 .env*
 !.env.example
+tmp
+
+htmx-server
