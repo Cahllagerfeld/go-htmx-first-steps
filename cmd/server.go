@@ -4,23 +4,22 @@ import (
 	"context"
 
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/handlers"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/router"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/view"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	e := echo.New()
+	e := router.New()
 
 	hh := handlers.NewHomeHandler(e)
 	ah := handlers.NewAboutHandler()
 
-	// e.Use(middleware.Logger())
+	h := handlers.NewHandler(hh, ah)
 
-	e.Static("/assets", "dist")
+	e.GET("/", h.Home.Index)
 
-	e.GET("/", hh.Index)
-
-	e.GET("/about", ah.About)
+	e.GET("/about", h.About.About)
 
 	e.POST(("/about/submit"), func(c echo.Context) error {
 		component := view.Success()
