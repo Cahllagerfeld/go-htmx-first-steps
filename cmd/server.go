@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/handlers"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/view"
 	"github.com/labstack/echo/v4"
 )
@@ -10,21 +11,19 @@ import (
 func main() {
 	e := echo.New()
 
+	hh := handlers.NewHomeHandler(e)
+	ah := handlers.NewAboutHandler()
+
 	// e.Use(middleware.Logger())
 
 	e.Static("/assets", "dist")
 
-	e.GET("/", func(c echo.Context) error {
-		// get headers from context
-		headers := c.Request().Header
-		e.StdLogger.Println(headers.Get("Accept"))
+	e.GET("/", hh.Index)
 
-		component := view.Hello("Baui")
-		return component.Render(context.Background(), c.Response().Writer)
-	})
+	e.GET("/about", ah.About)
 
-	e.GET("/about", func(c echo.Context) error {
-		component := view.Hello("Tester")
+	e.POST(("/about/submit"), func(c echo.Context) error {
+		component := view.Success()
 		return component.Render(context.Background(), c.Response().Writer)
 	})
 
