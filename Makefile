@@ -11,4 +11,4 @@ build:
 
 
 dev: 
-	pnpm build && air
+	pnpm dev && air
