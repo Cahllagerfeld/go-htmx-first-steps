@@ -2,10 +2,11 @@
 
 {
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [ pkgs.git pkgs.nodePackages_latest.pnpm ];
 
   # https://devenv.sh/languages/
   languages.go.enable = true;
+  languages.typescript.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
   # pre-commit.hooks.shellcheck.enable = true;
