@@ -11,13 +11,13 @@ import (
 func main() {
 	e := router.New()
 
-	hh := handlers.NewHomeHandler(e)
-	ah := handlers.NewAboutHandler()
+	homeHandler := handlers.NewHomeHandler(e)
+	aboutHandler := handlers.NewAboutHandler()
 	authHandler := handlers.NewAuthHandler(e)
 
 	auth.NewAuth()
 
-	h := handlers.NewHandler(hh, ah, authHandler)
+	h := handlers.NewHandler(homeHandler, aboutHandler, authHandler)
 
 	h.RegisterRoutes(e)
 

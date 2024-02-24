@@ -31,18 +31,10 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 		return component.Render(context.Background(), c.Response().Writer)
 	})
 
-	e.GET("/auth/:provider/callback", func(c echo.Context) error {
-		h.Auth.AuthCallback(c)
-		return nil
-	})
-	e.GET("/auth/:provider", func(c echo.Context) error {
-		h.Auth.Login(c)
-		return nil
-	})
-	e.GET("/logout/:provider", func(context echo.Context) error {
-		h.Auth.Logout(context)
-		return nil
-	})
+	auth := e.Group("/auth")
+	auth.GET("/:provider/callback", h.Auth.AuthCallback)
+	auth.GET("/:provider", h.Auth.Login)
+	auth.GET("/logout/:provider", h.Auth.Logout)
 
 	e.POST("/click", func(c echo.Context) error {
 		component := view.Clicked("Tester")

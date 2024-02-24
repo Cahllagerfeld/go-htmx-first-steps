@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/markbates/goth/gothic"
@@ -17,23 +18,33 @@ func NewAuthHandler(e *echo.Echo) *AuthHandler {
 
 const providerKey string = "provider"
 
-func (*AuthHandler) AuthCallback(ctx echo.Context) {
+func (*AuthHandler) AuthCallback(ctx echo.Context) error {
 	provider := ctx.Param("provider")
-	newRequest := ctx.Request().WithContext(context.WithValue(context.Background(), providerKey, provider))
-	user, err := gothic.CompleteUserAuth(ctx.Response(), newRequest)
+	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
 	if err != nil {
-		return
+		return err
 	}
-	ctx.JSON(200, user)
+	ctx.SetCookie(&http.Cookie{
+		Name:     "user",
+		Value:    user.AvatarURL,
+		Path:     "/",
+		HttpOnly: true,
+		MaxAge:   86400,
+	})
+	return ctx.JSON(200, user)
 }
 
-func (*AuthHandler) Logout(ctx echo.Context) {
+func (*AuthHandler) Logout(ctx echo.Context) error {
 	gothic.Logout(ctx.Response(), ctx.Request())
-	ctx.Redirect(302, "/")
+	return ctx.Redirect(302, "/")
 }
 
-func (*AuthHandler) Login(ctx echo.Context) {
+func (*AuthHandler) Login(ctx echo.Context) error {
 	provider := ctx.Param("provider")
-	newRequest := ctx.Request().WithContext(context.WithValue(context.Background(), providerKey, provider))
-	gothic.BeginAuthHandler(ctx.Response(), newRequest)
+	if _, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider))); err == nil {
+		return ctx.Redirect(302, "/")
+	} else {
+		gothic.BeginAuthHandler(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
+		return nil
+	}
 }
