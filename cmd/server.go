@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/handlers"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/router"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
