@@ -10,5 +10,8 @@ build:
 	go build -o $(APP_NAME) $(GO_SRC)
 
 
-dev: 
-	pnpm dev && air
+tailwind: 
+	pnpm dev
+
+air:
+	air

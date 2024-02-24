@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/auth"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/handlers"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/router"
 
@@ -12,8 +13,11 @@ func main() {
 
 	hh := handlers.NewHomeHandler(e)
 	ah := handlers.NewAboutHandler()
+	authHandler := handlers.NewAuthHandler(e)
 
-	h := handlers.NewHandler(hh, ah)
+	auth.NewAuth()
+
+	h := handlers.NewHandler(hh, ah, authHandler)
 
 	h.RegisterRoutes(e)
 
