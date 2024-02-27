@@ -3,13 +3,9 @@ package handlers
 import (
 	"context"
 	"net/http"
-	"os"
 	"time"
 
-	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
-	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 )
 
@@ -17,12 +13,7 @@ type AuthHandler struct {
 	e *echo.Echo
 }
 
-type Claims struct {
-	Username string `json:"username"`
-	jwt.RegisteredClaims
-}
-
-var users = []*domain.User{}
+// var users = []*domain.User{}
 
 const (
 	providerKey   string        = "provider"
@@ -40,13 +31,10 @@ func (*AuthHandler) AuthCallback(ctx echo.Context) error {
 		return err
 	}
 
-	u := findOrCreateUser(user)
-	tokenString, err := generateToken(u)
-	if err != nil {
-		return ctx.String(http.StatusInternalServerError, "Error signing token: "+err.Error())
-	}
-
-	setTokenCookie(ctx, tokenString)
+	// u := findOrCreateUser(user)
+	// if err != nil {
+	// 	return ctx.String(http.StatusInternalServerError, "Error signing token: "+err.Error())
+	// }
 
 	return ctx.JSON(http.StatusOK, user)
 }
@@ -66,41 +54,18 @@ func (*AuthHandler) Login(ctx echo.Context) error {
 	}
 }
 
-func findOrCreateUser(user goth.User) *domain.User {
-	for _, v := range users {
-		if v.Email == user.Email {
-			return v
-		}
-	}
-	u := &domain.User{
-		ID:       len(users) + 1,
-		Email:    user.Email,
-		Username: user.NickName,
-		Avatar:   user.AvatarURL,
-	}
-	users = append(users, u)
-	return u
-}
-
-func generateToken(u *domain.User) (string, error) {
-	claims := Claims{
-		Username: u.Username,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenDuration)),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signKey := os.Getenv("JWT_SECRET")
-	return token.SignedString([]byte(signKey))
-}
-
-func setTokenCookie(ctx echo.Context, tokenString string) {
-	ctx.SetCookie(&http.Cookie{
-		Name:     "token",
-		Value:    tokenString,
-		Path:     "/",
-		Expires:  time.Now().Add(tokenDuration),
-		HttpOnly: true,
-		Secure:   true,
-	})
-}
+// func findOrCreateUser(user goth.User) *domain.User {
+// 	for _, v := range users {
+// 		if v.Email == user.Email {
+// 			return v
+// 		}
+// 	}
+// 	u := &domain.User{
+// 		ID:       len(users) + 1,
+// 		Email:    user.Email,
+// 		Username: user.NickName,
+// 		Avatar:   user.AvatarURL,
+// 	}
+// 	users = append(users, u)
+// 	return u
+// }
