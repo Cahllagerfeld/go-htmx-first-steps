@@ -2,10 +2,16 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/auth"
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 )
 
@@ -13,11 +19,11 @@ type AuthHandler struct {
 	e *echo.Echo
 }
 
-// var users = []*domain.User{}
+var users = []*domain.User{}
 
 const (
 	providerKey   string        = "provider"
-	tokenDuration time.Duration = 24 * time.Hour
+	tokenDuration time.Duration = time.Hour * 24 * 7
 )
 
 func NewAuthHandler(e *echo.Echo) *AuthHandler {
@@ -31,15 +37,32 @@ func (*AuthHandler) AuthCallback(ctx echo.Context) error {
 		return err
 	}
 
-	// u := findOrCreateUser(user)
-	// if err != nil {
-	// 	return ctx.String(http.StatusInternalServerError, "Error signing token: "+err.Error())
-	// }
+	findOrCreateUser(user)
 
-	return ctx.JSON(http.StatusOK, user)
+	sess, _ := session.Get(auth.SessionName, ctx)
+	sess.Options = &sessions.Options{
+		MaxAge:   int(tokenDuration.Seconds()),
+		Path:     "/",
+		HttpOnly: true,
+	}
+
+	sess.Values[auth.AuthKey] = true
+	sess.Save(ctx.Request(), ctx.Response())
+
+	return ctx.Redirect(http.StatusFound, "/")
 }
 
 func (*AuthHandler) Logout(ctx echo.Context) error {
+	sess, _ := session.Get(auth.SessionName, ctx)
+	sess.Options = &sessions.Options{
+		MaxAge:   -1,
+		Path:     "/",
+		HttpOnly: true,
+	}
+	sess.Values[auth.AuthKey] = false
+
+	fmt.Println("Logging out")
+	sess.Save(ctx.Request(), ctx.Response())
 	gothic.Logout(ctx.Response(), ctx.Request())
 	return ctx.Redirect(http.StatusFound, "/")
 }
@@ -54,18 +77,18 @@ func (*AuthHandler) Login(ctx echo.Context) error {
 	}
 }
 
-// func findOrCreateUser(user goth.User) *domain.User {
-// 	for _, v := range users {
-// 		if v.Email == user.Email {
-// 			return v
-// 		}
-// 	}
-// 	u := &domain.User{
-// 		ID:       len(users) + 1,
-// 		Email:    user.Email,
-// 		Username: user.NickName,
-// 		Avatar:   user.AvatarURL,
-// 	}
-// 	users = append(users, u)
-// 	return u
-// }
+func findOrCreateUser(user goth.User) *domain.User {
+	for _, v := range users {
+		if v.Email == user.Email {
+			return v
+		}
+	}
+	u := &domain.User{
+		ID:       len(users) + 1,
+		Email:    user.Email,
+		Username: user.NickName,
+		Avatar:   user.AvatarURL,
+	}
+	users = append(users, u)
+	return u
+}
