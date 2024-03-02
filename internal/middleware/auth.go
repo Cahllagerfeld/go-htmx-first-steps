@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/auth"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
