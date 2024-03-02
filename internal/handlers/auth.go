@@ -29,7 +29,7 @@ func authCallbackHandler(ctx echo.Context) error {
 		return err
 	}
 
-	findOrCreateUser(user)
+	u := findOrCreateUser(user)
 
 	sess, _ := session.Get(auth.SessionName, ctx)
 	sess.Options = &sessions.Options{
@@ -38,7 +38,12 @@ func authCallbackHandler(ctx echo.Context) error {
 		HttpOnly: true,
 	}
 
-	sess.Values[auth.AuthKey] = true
+	sess.Values = map[interface{}]interface{}{
+		auth.AuthKey:      true,
+		auth.User_Id_Key:  u.ID,
+		auth.Username_Key: u.Username,
+	}
+
 	sess.Save(ctx.Request(), ctx.Response())
 
 	return ctx.Redirect(http.StatusFound, "/")

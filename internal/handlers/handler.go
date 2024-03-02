@@ -11,8 +11,7 @@ import (
 func RegisterRoutes(e *echo.Echo) {
 	e.GET("/", indexHandler)
 
-	about := e.Group("/about")
-	about.Use(middleware.WithAuth)
+	about := e.Group("/about", middleware.WithAuth)
 	about.GET("", aboutHandler)
 	about.POST(("/submit"), func(c echo.Context) error {
 		component := view.Success()

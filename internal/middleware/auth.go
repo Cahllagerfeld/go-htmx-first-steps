@@ -23,6 +23,14 @@ func WithAuth(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.String(http.StatusUnauthorized, "You are not authorized to view this page")
 		}
 
+		if userId, ok := sess.Values[auth.User_Id_Key].(int); ok && userId != 0 {
+			c.Set(auth.User_Id_Key, userId)
+		}
+
+		if username, ok := sess.Values[auth.Username_Key].(string); ok && len(username) != 0 {
+			c.Set(auth.Username_Key, username)
+		}
+
 		return next(c)
 	}
 }

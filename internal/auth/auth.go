@@ -11,11 +11,13 @@ import (
 )
 
 const (
-	key         = "randomString"
-	MaxAge      = 86400 * 30
-	isProd      = false
-	AuthKey     = "authenticated"
-	SessionName = "session"
+	key          = "randomString"
+	MaxAge       = 86400 * 30
+	isProd       = false
+	AuthKey      = "authenticated"
+	User_Id_Key  = "user_id"
+	Username_Key = "username"
+	SessionName  = "session"
 )
 
 func NewAuth() {
