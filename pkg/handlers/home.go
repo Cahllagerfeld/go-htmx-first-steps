@@ -19,6 +19,5 @@ func NewHomeHandler(e *echo.Echo) *HomeHandler {
 
 func (h *HomeHandler) Index(c echo.Context) error {
 	component := view.Hello("Baui")
-	h.e.StdLogger.Println("Hello")
 	return component.Render(context.Background(), c.Response().Writer)
 }
