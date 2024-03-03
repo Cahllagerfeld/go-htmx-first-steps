@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -64,7 +63,6 @@ func (authHandler *AuthHandler) logoutHandler(ctx echo.Context) error {
 	}
 	sess.Values[auth.AuthKey] = false
 
-	fmt.Println("Logging out")
 	sess.Save(ctx.Request(), ctx.Response())
 	gothic.Logout(ctx.Response(), ctx.Request())
 	return ctx.Redirect(http.StatusFound, "/")

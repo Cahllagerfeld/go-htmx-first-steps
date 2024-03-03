@@ -18,7 +18,6 @@ func WithAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		authValue, ok := sess.Values[auth.AuthKey]
-		fmt.Println(sess.Values)
 		if !ok || authValue != true {
 			return c.String(http.StatusUnauthorized, "You are not authorized to view this page")
 		}
