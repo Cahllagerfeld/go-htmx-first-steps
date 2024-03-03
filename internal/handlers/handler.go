@@ -29,9 +29,4 @@ func RegisterRoutes(e *echo.Echo, handlers *Handlers) {
 	auth.GET("/:provider", handlers.AuthHandler.loginHandler)
 	auth.GET("/logout", handlers.AuthHandler.logoutHandler)
 
-	e.POST("/click", func(c echo.Context) error {
-		component := view.Clicked("Tester")
-		return component.Render(context.Background(), c.Response().Writer)
-	})
-
 }
