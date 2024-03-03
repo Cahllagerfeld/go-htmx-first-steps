@@ -7,7 +7,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func aboutHandler(c echo.Context) error {
+type AboutHandler struct {
+}
+
+func NewAboutHandler() *AboutHandler {
+	return &AboutHandler{}
+}
+
+func (aboutHandler *AboutHandler) AboutHandler(c echo.Context) error {
 	component := view.About()
 	return component.Render(context.Background(), c.Response().Writer)
 }

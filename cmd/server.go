@@ -33,9 +33,17 @@ func main() {
 		Store: cookieStore,
 	}))
 
-	auth.NewAuth()
+	auth.NewAuth(cookieStore)
 
-	handlers.RegisterRoutes(e)
+	authHandler := handlers.NewAuthHandler()
+	indexHandler := handlers.NewIndexHandler()
+	aboutHandler := handlers.NewAboutHandler()
+
+	handlers.RegisterRoutes(e, &handlers.Handlers{
+		AboutHandler: aboutHandler,
+		AuthHandler:  authHandler,
+		IndexHandler: indexHandler,
+	})
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

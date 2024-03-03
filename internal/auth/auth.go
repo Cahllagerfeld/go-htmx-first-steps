@@ -11,27 +11,17 @@ import (
 )
 
 const (
-	key          = "randomString"
-	MaxAge       = 86400 * 30
-	isProd       = false
 	AuthKey      = "authenticated"
 	User_Id_Key  = "user_id"
 	Username_Key = "username"
 	SessionName  = "session"
 )
 
-func NewAuth() {
+func NewAuth(store *sessions.CookieStore) {
 
 	github_client := os.Getenv("GITHUB_CLIENT_ID")
 	github_secret := os.Getenv("GITHUB_CLIENT_SECRET")
 	github_callback := os.Getenv("GITHUB_CALLBACK_URL")
-
-	store := sessions.NewCookieStore([]byte(key))
-	store.MaxAge(MaxAge)
-
-	store.Options.Path = "/"
-	store.Options.HttpOnly = true
-	store.Options.Secure = isProd
 
 	gothic.Store = store
 

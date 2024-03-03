@@ -22,7 +22,13 @@ const (
 	tokenDuration time.Duration = time.Hour * 24 * 7
 )
 
-func authCallbackHandler(ctx echo.Context) error {
+type AuthHandler struct{}
+
+func NewAuthHandler() *AuthHandler {
+	return &AuthHandler{}
+}
+
+func (authHandler *AuthHandler) authCallbackHandler(ctx echo.Context) error {
 	provider := ctx.Param("provider")
 	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
 	if err != nil {
@@ -49,7 +55,7 @@ func authCallbackHandler(ctx echo.Context) error {
 	return ctx.Redirect(http.StatusFound, "/")
 }
 
-func logoutHandler(ctx echo.Context) error {
+func (authHandler *AuthHandler) logoutHandler(ctx echo.Context) error {
 	sess, _ := session.Get(auth.SessionName, ctx)
 	sess.Options = &sessions.Options{
 		MaxAge:   -1,
@@ -64,7 +70,7 @@ func logoutHandler(ctx echo.Context) error {
 	return ctx.Redirect(http.StatusFound, "/")
 }
 
-func loginHandler(ctx echo.Context) error {
+func (authHandler *AuthHandler) loginHandler(ctx echo.Context) error {
 	provider := ctx.Param("provider")
 	if _, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider))); err == nil {
 		return ctx.Redirect(http.StatusFound, "/")

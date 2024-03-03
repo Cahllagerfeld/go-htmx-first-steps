@@ -7,7 +7,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func indexHandler(c echo.Context) error {
+type IndexHandler struct{}
+
+func NewIndexHandler() *IndexHandler {
+	return &IndexHandler{}
+}
+
+func (indexHandler *IndexHandler) indexHandler(c echo.Context) error {
 	component := view.Hello("Baui")
 	return component.Render(context.Background(), c.Response().Writer)
 }
