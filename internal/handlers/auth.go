@@ -14,27 +14,33 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-var users = []*domain.User{}
-
 const (
 	providerKey   string        = "provider"
 	tokenDuration time.Duration = time.Hour * 24 * 7
 )
 
-type AuthHandler struct{}
-
-func NewAuthHandler() *AuthHandler {
-	return &AuthHandler{}
+type AuthService interface {
+	FindOrCreateUser(user goth.User) *domain.User
 }
 
-func (authHandler *AuthHandler) authCallbackHandler(ctx echo.Context) error {
+type AuthHandler struct {
+	UserService AuthService
+}
+
+func NewAuthHandler(us AuthService) *AuthHandler {
+	return &AuthHandler{
+		UserService: us,
+	}
+}
+
+func (ah *AuthHandler) authCallbackHandler(ctx echo.Context) error {
 	provider := ctx.Param("provider")
 	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
 	if err != nil {
 		return err
 	}
 
-	u := findOrCreateUser(user)
+	u := ah.UserService.FindOrCreateUser(user)
 
 	sess, _ := session.Get(auth.SessionName, ctx)
 	sess.Options = &sessions.Options{
@@ -76,20 +82,4 @@ func (authHandler *AuthHandler) loginHandler(ctx echo.Context) error {
 		gothic.BeginAuthHandler(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
 		return nil
 	}
-}
-
-func findOrCreateUser(user goth.User) *domain.User {
-	for _, v := range users {
-		if v.Email == user.Email {
-			return v
-		}
-	}
-	u := &domain.User{
-		ID:       len(users) + 1,
-		Email:    user.Email,
-		Username: user.NickName,
-		Avatar:   user.AvatarURL,
-	}
-	users = append(users, u)
-	return u
 }

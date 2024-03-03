@@ -6,6 +6,7 @@ import (
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/handlers"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/router"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/services"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 
@@ -35,7 +36,8 @@ func main() {
 
 	auth.NewAuth(cookieStore)
 
-	authHandler := handlers.NewAuthHandler()
+	userService := services.NewUserService()
+	authHandler := handlers.NewAuthHandler(userService)
 	indexHandler := handlers.NewIndexHandler()
 	aboutHandler := handlers.NewAboutHandler()
 
