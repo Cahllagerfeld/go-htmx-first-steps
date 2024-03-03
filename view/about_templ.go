@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/Cahllagerfeld/go-htmx-first-steps/pkg/layout"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
 
 func About() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {

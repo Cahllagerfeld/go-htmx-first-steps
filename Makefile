@@ -6,12 +6,7 @@ GO_SRC := ./cmd/server.go
 
 # Build the Go server
 build:
-	pnpm build
+	pnpm tailwind-build
 	go build -o $(APP_NAME) $(GO_SRC)
 
 
-tailwind: 
-	pnpm dev
-
-air:
-	air

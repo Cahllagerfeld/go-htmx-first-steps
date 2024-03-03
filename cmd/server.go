@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/auth"
-	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/handlers"
-	"github.com/Cahllagerfeld/go-htmx-first-steps/pkg/router"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/handlers"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/router"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 
@@ -33,15 +33,17 @@ func main() {
 		Store: cookieStore,
 	}))
 
-	homeHandler := handlers.NewHomeHandler(e)
+	auth.NewAuth(cookieStore)
+
+	authHandler := handlers.NewAuthHandler()
+	indexHandler := handlers.NewIndexHandler()
 	aboutHandler := handlers.NewAboutHandler()
-	authHandler := handlers.NewAuthHandler(e)
 
-	auth.NewAuth()
-
-	h := handlers.NewHandler(homeHandler, aboutHandler, authHandler)
-
-	h.RegisterRoutes(e)
+	handlers.RegisterRoutes(e, &handlers.Handlers{
+		AboutHandler: aboutHandler,
+		AuthHandler:  authHandler,
+		IndexHandler: indexHandler,
+	})
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

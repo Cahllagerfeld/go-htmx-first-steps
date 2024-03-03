@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --watch",
-    "build": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify"
+    "dev": "run-p server tailwind-dev",
+    "build": "make build",
+    "server": "air",
+    "tailwind-dev": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --watch",
+    "tailwind-build": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
