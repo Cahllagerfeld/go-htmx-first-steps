@@ -23,7 +23,7 @@ func Header() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mx-auto\"><header class=\"mt-4 px-4 py-1 rounded-lg bg-red-700 shadow-xl bg-white flex gap-4\"><a hx-boost=\"true\" href=\"/\" class=\"p-2\">Home</a> <a hx-boost=\"true\" href=\"/about\" class=\"p-2\">About</a> <a href=\"/auth/github\" class=\"p-2\">Login</a></header></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mx-auto\"><header class=\"mt-4 px-4 py-1 rounded-lg bg-red-700 shadow-xl bg-white flex gap-4\"><a hx-boost=\"true\" href=\"/\" class=\"p-2\">Home</a> <a hx-boost=\"true\" href=\"/about\" class=\"p-2\">About</a></header></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

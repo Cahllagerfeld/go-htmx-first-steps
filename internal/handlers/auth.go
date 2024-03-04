@@ -14,8 +14,10 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
+type ProviderKey string
+
 const (
-	providerKey   string        = "provider"
+	providerKey   ProviderKey   = "provider"
 	tokenDuration time.Duration = time.Hour * 24 * 7
 )
 
@@ -53,6 +55,7 @@ func (ah *AuthHandler) authCallbackHandler(ctx echo.Context) error {
 		auth.AuthKey:      true,
 		auth.User_Id_Key:  u.ID,
 		auth.Username_Key: u.Username,
+		auth.GithubToken:  user.AccessToken,
 	}
 
 	sess.Save(ctx.Request(), ctx.Response())

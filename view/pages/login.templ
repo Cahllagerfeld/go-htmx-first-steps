@@ -1,0 +1,11 @@
+package pages
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
+
+templ Login() {
+	@layout.Base() {
+		<div class="flex flex-1 h-full w-full items-center justify-center">
+			<a href="/auth/github" class="px-4 shadow-lg py-2 bg-stone-800 rounded-lg text-white">Login With Github</a>
+		</div>
+	}
+}
