@@ -1,0 +1,16 @@
+package pages
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/shared"
+
+templ IndexPage(name string) {
+	@layout.Base() {
+		@layout.AuthenticatedLayout() {
+			@shared.Card() {
+				<div class="w-full">
+					Hello, { name }.
+				</div>
+			}
+		}
+	}
+}
