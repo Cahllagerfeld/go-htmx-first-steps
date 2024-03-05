@@ -19,7 +19,7 @@ func WithAuth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		authValue, ok := sess.Values[auth.AuthKey]
 		if !ok || authValue != true {
-			return c.String(http.StatusUnauthorized, "You are not authorized to view this page")
+			return c.Redirect(http.StatusFound, "/login")
 		}
 
 		if userId, ok := sess.Values[auth.User_Id_Key].(int); ok && userId != 0 {
@@ -28,6 +28,9 @@ func WithAuth(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if username, ok := sess.Values[auth.Username_Key].(string); ok && len(username) != 0 {
 			c.Set(auth.Username_Key, username)
+		}
+		if githubToken, ok := sess.Values[auth.GithubToken].(string); ok && len(githubToken) != 0 {
+			c.Set(auth.GithubToken, githubToken)
 		}
 
 		return next(c)

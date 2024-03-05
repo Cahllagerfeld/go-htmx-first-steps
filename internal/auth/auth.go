@@ -15,6 +15,7 @@ const (
 	User_Id_Key  = "user_id"
 	Username_Key = "username"
 	SessionName  = "session"
+	GithubToken  = "github_token"
 )
 
 func NewAuth(store *sessions.CookieStore) {

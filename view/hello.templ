@@ -5,11 +5,5 @@ import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
 templ Hello(name string) {
 	@layout.Base() {
 		<div>Hello, { name }</div>
-		<button hx-post="/click" hx-swap="outerHTML">Click me</button>
 	}
-}
-
-templ Clicked(name string) {
-	<div class="bg-blue-700">Clicked!</div>
-	<a href="/about" class="bg-green-500">Go to about</a>
 }
