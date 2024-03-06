@@ -1,18 +1,13 @@
 package layout
 
-import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
-
 templ Base() {
 	<html>
 		<head>
 			<script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
 			<link rel="stylesheet" href="/assets/tailwind.css"/>
 		</head>
-		<body class="bg-neutral-100">
-			<div class="flex min-h-screen flex-col mx-auto max-w-[1440px]">
-				@partials.Header()
-				{ children... }
-			</div>
+		<body class="bg-zinc-800 text-zinc-200">
+			{ children... }
 		</body>
 	</html>
 }

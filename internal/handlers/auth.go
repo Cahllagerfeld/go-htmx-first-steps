@@ -14,10 +14,7 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-type ProviderKey string
-
 const (
-	providerKey   ProviderKey   = "provider"
 	tokenDuration time.Duration = time.Hour * 24 * 7
 )
 
@@ -37,7 +34,7 @@ func NewAuthHandler(us AuthService) *AuthHandler {
 
 func (ah *AuthHandler) authCallbackHandler(ctx echo.Context) error {
 	provider := ctx.Param("provider")
-	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
+	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(context.Background(), "provider", provider)))
 	if err != nil {
 		return err
 	}
@@ -79,10 +76,10 @@ func (authHandler *AuthHandler) logoutHandler(ctx echo.Context) error {
 
 func (authHandler *AuthHandler) loginHandler(ctx echo.Context) error {
 	provider := ctx.Param("provider")
-	if _, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider))); err == nil {
+	if _, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request().WithContext(context.WithValue(context.Background(), "provider", provider))); err == nil {
 		return ctx.Redirect(http.StatusFound, "/")
 	} else {
-		gothic.BeginAuthHandler(ctx.Response(), ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), providerKey, provider)))
+		gothic.BeginAuthHandler(ctx.Response(), ctx.Request().WithContext(context.WithValue(context.Background(), "provider", provider)))
 		return nil
 	}
 }
