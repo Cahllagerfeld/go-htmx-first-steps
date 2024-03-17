@@ -1,9 +1,15 @@
 package partials
 
-templ Sidebar() {
-	<div class="bg-zinc-700 w-[400px] border-r border-zinc-600">
+import "strconv"
+
+type SidebarProps struct {
+	ReviewAmount int
+}
+
+templ Sidebar(props SidebarProps) {
+	<div class="bg-zinc-700 w-[300px] border-r border-zinc-600">
 		<ul class="space-y-4 p-2">
-			<li><a class="hover:bg-zinc-600 rounded-md p-2 block items-center" href="/">Needs your review</a></li>
+			<li><a class="hover:bg-zinc-600 flex justify-between rounded-md px-2 py-1 items-center" href="/"><div>Needs your review</div><div class="font-thin text-zinc-300">{ strconv.Itoa(props.ReviewAmount) }</div></a></li>
 		</ul>
 	</div>
 }

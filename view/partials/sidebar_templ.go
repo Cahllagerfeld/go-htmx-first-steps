@@ -10,7 +10,13 @@ import "context"
 import "io"
 import "bytes"
 
-func Sidebar() templ.Component {
+import "strconv"
+
+type SidebarProps struct {
+	ReviewAmount int
+}
+
+func Sidebar(props SidebarProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +29,20 @@ func Sidebar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-zinc-700 w-[400px] border-r border-zinc-600\"><ul class=\"space-y-4 p-2\"><li><a class=\"hover:bg-zinc-600 rounded-md p-2 block items-center\" href=\"/\">Needs your review</a></li></ul></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-zinc-700 w-[300px] border-r border-zinc-600\"><ul class=\"space-y-4 p-2\"><li><a class=\"hover:bg-zinc-600 flex justify-between rounded-md px-2 py-1 items-center\" href=\"/\"><div>Needs your review</div><div class=\"font-thin text-zinc-300\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.ReviewAmount))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/partials/sidebar.templ`, Line: 11, Col: 199}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></a></li></ul></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

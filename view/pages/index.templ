@@ -4,9 +4,12 @@ import "github.com/Cahllagerfeld/go-htmx-first-steps/view/shared"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
 import "strconv"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
 
 templ IndexPage(name string, prs domain.SearchResult) {
-	@layout.AuthenticatedLayout() {
+	@layout.AuthenticatedLayout(layout.AuthenticatedLayoutProps{
+		SidebarProps: partials.SidebarProps{ReviewAmount: int(prs.Search.IssueCount)},
+	}) {
 		<div class="space-y-4">
 			<div class="w-full text-lg">
 				Hello, <span class="font-bold text-xl">{ name }</span>.

@@ -2,11 +2,15 @@ package layout
 
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
 
-templ AuthenticatedLayout() {
+type AuthenticatedLayoutProps struct {
+	SidebarProps partials.SidebarProps
+}
+
+templ AuthenticatedLayout(props AuthenticatedLayoutProps) {
 	@Base() {
 		<div class="flex min-h-screen flex-col mx-auto">
 			<div class="flex-1 flex">
-				@partials.Sidebar()
+				@partials.Sidebar(props.SidebarProps)
 				<main class="p-4 w-full">
 					{ children... }
 				</main>
