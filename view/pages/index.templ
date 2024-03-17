@@ -2,13 +2,45 @@ package pages
 
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/shared"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
+import "strconv"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
 
-templ IndexPage(name string) {
-	@layout.AuthenticatedLayout() {
-		@shared.Card() {
-			<div class="w-full">
-				Hello, { name }.
+templ IndexPage(name string, prs domain.SearchResult) {
+	@layout.AuthenticatedLayout(layout.AuthenticatedLayoutProps{
+		SidebarProps: partials.SidebarProps{ReviewAmount: int(prs.Search.IssueCount)},
+	}) {
+		<div class="space-y-4">
+			<div class="w-full text-lg">
+				Hello, <span class="font-bold text-xl">{ name }</span>.
 			</div>
-		}
+			@shared.Card() {
+				<div class="w-full">
+					<div class="mb-6 flex items-center gap-4">
+						<h1 class="text-xl">Needs your review</h1>
+						<span class="font-thin text-zinc-400">{ strconv.Itoa(int(prs.Search.IssueCount)) }</span>
+					</div>
+					<ul class="flex flex-col gap-4">
+						for _, item := range prs.Search.Edges {
+							@listItem(item)
+						}
+					</ul>
+				</div>
+			}
+		</div>
 	}
+}
+
+templ listItem(item domain.SearchResultNode) {
+	<li class="">
+		<a class="px-2 py-1 hover:bg-zinc-600 rounded-md flex items-center gap-4" href={ templ.SafeURL(string(item.Node.PullRequest.URL)) }>
+			@shared.Avatar(string(item.Node.PullRequest.Author.AvatarUrl), "Avatar")
+			<div>
+				{ string(item.Node.PullRequest.Title) }
+				<p class="text-xs">
+					{ string(item.Node.PullRequest.Author.Login) } -{ string(item.Node.PullRequest.Repository.NameWithOwner) }
+				</p>
+			</div>
+		</a>
+	</li>
 }
