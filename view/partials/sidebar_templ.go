@@ -23,7 +23,7 @@ func Sidebar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-zinc-700 w-[200px] border-r border-zinc-600\"><ul class=\"space-y-4 p-2\"><li><a class=\"hover:bg-zinc-600 rounded-md p-2 block items-center\" href=\"/\">Category 1</a></li></ul></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-zinc-700 w-[400px] border-r border-zinc-600\"><ul class=\"space-y-4 p-2\"><li><a class=\"hover:bg-zinc-600 rounded-md p-2 block items-center\" href=\"/\">Needs your review</a></li></ul></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
