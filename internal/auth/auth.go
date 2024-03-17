@@ -27,7 +27,7 @@ func NewAuth(store *sessions.CookieStore) {
 	gothic.Store = store
 
 	goth.UseProviders(
-		github.New(github_client, github_secret, github_callback, "notifications"),
+		github.New(github_client, github_secret, github_callback),
 	)
 }
 
