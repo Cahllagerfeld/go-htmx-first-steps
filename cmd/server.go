@@ -36,9 +36,11 @@ func main() {
 
 	auth.NewAuth(cookieStore)
 
+	githubService := services.NewGithubService()
 	userService := services.NewUserService()
+
 	authHandler := handlers.NewAuthHandler(userService)
-	indexHandler := handlers.NewIndexHandler()
+	indexHandler := handlers.NewIndexHandler(githubService)
 	aboutHandler := handlers.NewAboutHandler()
 
 	handlers.RegisterRoutes(e, &handlers.Handlers{
