@@ -5,7 +5,6 @@ import (
 
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
-	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/services"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/view/pages"
 	"github.com/labstack/echo/v4"
 )
@@ -18,7 +17,7 @@ type IndexHandler struct {
 	githubService GithubService
 }
 
-func NewIndexHandler(gs *services.GithubService) *IndexHandler {
+func NewIndexHandler(gs GithubService) *IndexHandler {
 	return &IndexHandler{
 		githubService: gs,
 	}
