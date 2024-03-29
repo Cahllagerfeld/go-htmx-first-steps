@@ -17,15 +17,15 @@ type ReviewSearchResultNode struct {
 	Node struct {
 		PullRequest struct {
 			ID     githubv4.ID
-			Number int
+			Number int32
 			Title  string
 			URL    string
 			Author struct {
 				Login     string
 				AvatarUrl string
 			}
-			Additions  int
-			Deletions  int
+			Additions  int32
+			Deletions  int32
 			Repository struct {
 				NameWithOwner string
 			}
