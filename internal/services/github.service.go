@@ -15,23 +15,25 @@ func NewGithubService() *GithubService {
 	return &GithubService{}
 }
 
-func (githubService *GithubService) GetPrsToReview(username, token string, pageSize int, after string) (*graphqlquery.ReviewSearchResult, error) {
+func (githubService *GithubService) CreateClient(ctx context.Context, token string) *githubv4.Client {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
 	)
 
-	httpClient := oauth2.NewClient(context.Background(), src)
+	httpClient := oauth2.NewClient(ctx, src)
 	client := githubv4.NewClient(httpClient)
+	return client
+}
 
+func (githubService *GithubService) GetPrsToReview(client *githubv4.Client, username string, pageParams GithubPaginationParams) (*graphqlquery.ReviewSearchResult, error) {
 	var query graphqlquery.ReviewSearchResult
-
 	variables := map[string]interface{}{
 		"query":    githubv4.String(fmt.Sprintf("is:open review-requested:%s", username)),
-		"pageSize": githubv4.Int(pageSize),
+		"pageSize": githubv4.Int(pageParams.PageSize),
 	}
 
-	if after != "" {
-		variables["after"] = githubv4.String(after)
+	if pageParams.After != "" {
+		variables["after"] = githubv4.String(pageParams.After)
 	} else {
 		variables["after"] = (*githubv4.String)(nil)
 
