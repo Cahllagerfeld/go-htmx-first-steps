@@ -12,11 +12,11 @@ import "bytes"
 
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/shared"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
-import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
 import "strconv"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
 
-func IndexPage(name string, prs domain.SearchResult) templ.Component {
+func IndexPage(name string, prs graphqlquery.ReviewSearchResult) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -116,7 +116,7 @@ func IndexPage(name string, prs domain.SearchResult) templ.Component {
 	})
 }
 
-func listItem(item domain.SearchResultNode) templ.Component {
+func listItem(item graphqlquery.ReviewSearchResultNode) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

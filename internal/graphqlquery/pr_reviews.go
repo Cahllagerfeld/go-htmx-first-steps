@@ -1,19 +1,19 @@
-package domain
+package graphqlquery
 
 import "github.com/shurcooL/githubv4"
 
-type SearchResult struct {
+type ReviewSearchResult struct {
 	Search struct {
 		IssueCount githubv4.Int
 		PageInfo   struct {
 			HasNextPage bool
 			EndCursor   githubv4.String
 		}
-		Edges []SearchResultNode
-	} `graphql:"search(query: $query, type: ISSUE, first: $pageSize, after: $afterCursor)"`
+		Edges []ReviewSearchResultNode
+	} `graphql:"search(query: $query, type: ISSUE, first: $pageSize, after: $after)"`
 }
 
-type SearchResultNode struct {
+type ReviewSearchResultNode struct {
 	Node struct {
 		PullRequest struct {
 			ID     githubv4.ID

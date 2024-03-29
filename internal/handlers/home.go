@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
-	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/view/pages"
 	"github.com/labstack/echo/v4"
 )
 
 type GithubService interface {
-	GetPrsToReview(username, token string) (*domain.SearchResult, error)
+	GetPrsToReview(username, token string, pageSize int) (*graphqlquery.ReviewSearchResult, error)
 }
 
 type IndexHandler struct {
@@ -27,7 +27,7 @@ func (indexHandler *IndexHandler) indexHandler(c echo.Context) error {
 	username := c.Get(auth.Username_Key).(string)
 	token := c.Get(auth.GithubToken).(string)
 
-	query, err := indexHandler.githubService.GetPrsToReview(username, token)
+	query, err := indexHandler.githubService.GetPrsToReview(username, token, 10)
 	if err != nil {
 		return err
 	}
