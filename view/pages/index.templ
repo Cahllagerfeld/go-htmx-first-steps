@@ -36,12 +36,12 @@ templ IndexPage(name string, prs graphqlquery.ReviewSearchResult) {
 
 templ listItem(item graphqlquery.ReviewSearchResultNode) {
 	<li class="">
-		<a class="px-2 py-1 hover:bg-zinc-600 rounded-md flex items-center gap-4" href={ templ.SafeURL(string(item.Node.PullRequest.URL)) }>
-			@shared.Avatar(string(item.Node.PullRequest.Author.AvatarUrl), "Avatar")
+		<a class="px-2 py-1 hover:bg-zinc-600 rounded-md flex items-center gap-4" href={ templ.SafeURL(item.Node.PullRequest.URL) }>
+			@shared.Avatar(item.Node.PullRequest.Author.AvatarUrl, "Avatar")
 			<div>
-				{ string(item.Node.PullRequest.Title) }
+				{ item.Node.PullRequest.Title }
 				<p class="text-xs">
-					{ string(item.Node.PullRequest.Author.Login) } -{ string(item.Node.PullRequest.Repository.NameWithOwner) }
+					{ item.Node.PullRequest.Author.Login } -{ item.Node.PullRequest.Repository.NameWithOwner }
 				</p>
 			</div>
 		</a>

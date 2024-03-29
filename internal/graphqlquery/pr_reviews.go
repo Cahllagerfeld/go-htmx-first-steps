@@ -7,7 +7,7 @@ type ReviewSearchResult struct {
 		IssueCount githubv4.Int
 		PageInfo   struct {
 			HasNextPage bool
-			EndCursor   githubv4.String
+			EndCursor   string
 		}
 		Edges []ReviewSearchResultNode
 	} `graphql:"search(query: $query, type: ISSUE, first: $pageSize, after: $after)"`
@@ -17,17 +17,17 @@ type ReviewSearchResultNode struct {
 	Node struct {
 		PullRequest struct {
 			ID     githubv4.ID
-			Number githubv4.Int
-			Title  githubv4.String
-			URL    githubv4.String
+			Number int
+			Title  string
+			URL    string
 			Author struct {
-				Login     githubv4.String
-				AvatarUrl githubv4.String
+				Login     string
+				AvatarUrl string
 			}
-			Additions  githubv4.Int
-			Deletions  githubv4.Int
+			Additions  int
+			Deletions  int
 			Repository struct {
-				NameWithOwner githubv4.String
+				NameWithOwner string
 			}
 		} `graphql:"... on PullRequest"`
 	} `graphql:"node"`

@@ -10,7 +10,7 @@ import (
 )
 
 type GithubService interface {
-	GetPrsToReview(username, token string, pageSize int) (*graphqlquery.ReviewSearchResult, error)
+	GetPrsToReview(username, token string, pageSize int, after string) (*graphqlquery.ReviewSearchResult, error)
 }
 
 type IndexHandler struct {
@@ -27,7 +27,7 @@ func (indexHandler *IndexHandler) indexHandler(c echo.Context) error {
 	username := c.Get(auth.Username_Key).(string)
 	token := c.Get(auth.GithubToken).(string)
 
-	query, err := indexHandler.githubService.GetPrsToReview(username, token, 10)
+	query, err := indexHandler.githubService.GetPrsToReview(username, token, 10, "")
 	if err != nil {
 		return err
 	}

@@ -15,7 +15,7 @@ func NewGithubService() *GithubService {
 	return &GithubService{}
 }
 
-func (githubService *GithubService) GetPrsToReview(username, token string, pageSize int) (*graphqlquery.ReviewSearchResult, error) {
+func (githubService *GithubService) GetPrsToReview(username, token string, pageSize int, after string) (*graphqlquery.ReviewSearchResult, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
 	)
@@ -25,12 +25,16 @@ func (githubService *GithubService) GetPrsToReview(username, token string, pageS
 
 	var query graphqlquery.ReviewSearchResult
 
-	var after *githubv4.String
-
 	variables := map[string]interface{}{
 		"query":    githubv4.String(fmt.Sprintf("is:open review-requested:%s", username)),
 		"pageSize": githubv4.Int(pageSize),
-		"after":    after,
+	}
+
+	if after != "" {
+		variables["after"] = githubv4.String(after)
+	} else {
+		variables["after"] = (*githubv4.String)(nil)
+
 	}
 
 	err := client.Query(context.Background(), &query, variables)
