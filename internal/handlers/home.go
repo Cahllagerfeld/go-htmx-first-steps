@@ -4,13 +4,18 @@ import (
 	"context"
 
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/auth"
+	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/internal/services"
 	"github.com/Cahllagerfeld/go-htmx-first-steps/view/pages"
 	"github.com/labstack/echo/v4"
 )
 
+type GithubService interface {
+	GetPrsToReview(username, token string) (*domain.SearchResult, error)
+}
+
 type IndexHandler struct {
-	githubService *services.GithubService
+	githubService GithubService
 }
 
 func NewIndexHandler(gs *services.GithubService) *IndexHandler {

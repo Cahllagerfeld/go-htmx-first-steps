@@ -41,10 +41,8 @@ func main() {
 
 	authHandler := handlers.NewAuthHandler(userService)
 	indexHandler := handlers.NewIndexHandler(githubService)
-	aboutHandler := handlers.NewAboutHandler()
 
 	handlers.RegisterRoutes(e, &handlers.Handlers{
-		AboutHandler: aboutHandler,
 		AuthHandler:  authHandler,
 		IndexHandler: indexHandler,
 	})
