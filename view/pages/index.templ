@@ -11,8 +11,11 @@ templ IndexPage(name string, prs domain.SearchResult) {
 		SidebarProps: partials.SidebarProps{ReviewAmount: int(prs.Search.IssueCount)},
 	}) {
 		<div class="space-y-4">
-			<div class="w-full text-lg">
-				Hello, <span class="font-bold text-xl">{ name }</span>.
+			<div class="w-full flex items-center justify-between text-lg">
+				<div>
+					Hello, <span class="font-bold text-xl">{ name }</span>.
+				</div>
+				<a href="/auth/logout" class="px-4 shadow-lg py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-white">Logout</a>
 			</div>
 			@shared.Card() {
 				<div class="w-full">
