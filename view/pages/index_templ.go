@@ -12,11 +12,11 @@ import "bytes"
 
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/shared"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
-import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/domain"
 import "strconv"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
+import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
 
-func IndexPage(name string, prs domain.SearchResult) templ.Component {
+func IndexPage(name string, prs graphqlquery.ReviewSearchResult) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -116,7 +116,7 @@ func IndexPage(name string, prs domain.SearchResult) templ.Component {
 	})
 }
 
-func listItem(item domain.SearchResultNode) templ.Component {
+func listItem(item graphqlquery.ReviewSearchResultNode) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -133,7 +133,7 @@ func listItem(item domain.SearchResultNode) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 templ.SafeURL = templ.SafeURL(string(item.Node.PullRequest.URL))
+		var templ_7745c5c3_Var7 templ.SafeURL = templ.SafeURL(item.Node.PullRequest.URL)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -142,7 +142,7 @@ func listItem(item domain.SearchResultNode) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = shared.Avatar(string(item.Node.PullRequest.Author.AvatarUrl), "Avatar").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = shared.Avatar(item.Node.PullRequest.Author.AvatarUrl, "Avatar").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -151,9 +151,9 @@ func listItem(item domain.SearchResultNode) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Node.PullRequest.Title))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(item.Node.PullRequest.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 41, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 41, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -164,9 +164,9 @@ func listItem(item domain.SearchResultNode) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Node.PullRequest.Author.Login))
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(item.Node.PullRequest.Author.Login)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 43, Col: 49}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 43, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -177,9 +177,9 @@ func listItem(item domain.SearchResultNode) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Node.PullRequest.Repository.NameWithOwner))
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(item.Node.PullRequest.Repository.NameWithOwner)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 43, Col: 109}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 43, Col: 93}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
