@@ -28,7 +28,7 @@ func (githubService *GithubService) CreateClient(ctx context.Context, token stri
 func (githubService *GithubService) GetPrsToReview(client *githubv4.Client, username string, pageParams GithubPaginationParams) (*graphqlquery.ReviewSearchResult, error) {
 	var query graphqlquery.ReviewSearchResult
 	variables := map[string]interface{}{
-		"query":    githubv4.String(fmt.Sprintf("is:open review-requested:%s", username)),
+		"query":    githubv4.String(fmt.Sprintf("is:open is:pull-request review-requested:%s", username)),
 		"pageSize": githubv4.Int(pageParams.PageSize),
 	}
 
