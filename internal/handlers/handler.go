@@ -15,7 +15,7 @@ func RegisterRoutes(e *echo.Echo, handlers *Handlers) {
 	e.GET("/", handlers.IndexHandler.indexHandler, middleware.WithAuth)
 	e.GET("/login", handlers.IndexHandler.LoginHandler)
 
-	setup := e.Group("/setup")
+	setup := e.Group("/setup", middleware.WithAuth)
 	setup.GET("", handlers.SetupHandler.GetSetupPage)
 
 	auth := e.Group("/auth")

@@ -2,12 +2,19 @@ package pages
 
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
 
-templ SetupPage() {
+import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
+import "strconv"
+
+templ SetupPage(repos graphqlquery.RepositoryQuery) {
 	@layout.Base() {
 		<div class="flex flex-col min-h-screen w-full items-center justify-center">
-			<h1 class="text-lg font-semibold">Please select your repos</h1>
+			<h1 class="text-lg font-semibold">Please select your repos ({ strconv.Itoa(int(repos.User.Repositories.TotalCount)) })</h1>
 			<ul>
-				<li>Repo1</li>
+				for _, item := range repos.User.Repositories.Nodes {
+					<li>
+						{ item.Name }
+					</li>
+				}
 			</ul>
 		</div>
 	}
