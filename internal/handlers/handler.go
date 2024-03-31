@@ -6,6 +6,7 @@ import (
 )
 
 type Handlers struct {
+	SetupHandler *SetupHandler
 	IndexHandler *IndexHandler
 	AuthHandler  *AuthHandler
 }
@@ -13,6 +14,9 @@ type Handlers struct {
 func RegisterRoutes(e *echo.Echo, handlers *Handlers) {
 	e.GET("/", handlers.IndexHandler.indexHandler, middleware.WithAuth)
 	e.GET("/login", handlers.IndexHandler.LoginHandler)
+
+	setup := e.Group("/setup")
+	setup.GET("", handlers.SetupHandler.GetSetupPage)
 
 	auth := e.Group("/auth")
 	auth.GET("/:provider/callback", handlers.AuthHandler.authCallbackHandler)

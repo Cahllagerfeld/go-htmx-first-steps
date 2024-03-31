@@ -1,0 +1,14 @@
+package pages
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
+
+templ SetupPage() {
+	@layout.Base() {
+		<div class="flex flex-col min-h-screen w-full items-center justify-center">
+			<h1 class="text-lg font-semibold">Please select your repos</h1>
+			<ul>
+				<li>Repo1</li>
+			</ul>
+		</div>
+	}
+}
