@@ -6,9 +6,9 @@ import "strconv"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
 
-templ IndexPage(name string, prs graphqlquery.ReviewSearchResult) {
+templ IndexPage(name string, prs graphqlquery.ReviewSearchResult, issueCount int32) {
 	@layout.AuthenticatedLayout(layout.AuthenticatedLayoutProps{
-		SidebarProps: partials.SidebarProps{ReviewAmount: int(prs.Search.IssueCount)},
+		SidebarProps: partials.SidebarProps{ReviewAmount: int(issueCount)},
 	}) {
 		<div class="space-y-4">
 			<div class="w-full flex items-center justify-between text-lg">
@@ -21,7 +21,7 @@ templ IndexPage(name string, prs graphqlquery.ReviewSearchResult) {
 				<div class="w-full">
 					<div class="mb-6 flex items-center gap-4">
 						<h1 class="text-xl">Needs your review</h1>
-						<span class="font-thin text-zinc-400">{ strconv.Itoa(int(prs.Search.IssueCount)) }</span>
+						<span class="font-thin text-zinc-400">{ strconv.Itoa(int(issueCount)) }</span>
 					</div>
 					<ul class="flex flex-col gap-4">
 						for _, item := range prs.Search.Edges {
