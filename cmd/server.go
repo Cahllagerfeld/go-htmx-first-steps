@@ -41,10 +41,12 @@ func main() {
 
 	authHandler := handlers.NewAuthHandler(userService)
 	indexHandler := handlers.NewIndexHandler(githubService)
+	setupHandler := handlers.NewSetupHandler(githubService)
 
 	handlers.RegisterRoutes(e, &handlers.Handlers{
 		AuthHandler:  authHandler,
 		IndexHandler: indexHandler,
+		SetupHandler: setupHandler,
 	})
 
 	e.Logger.Fatal(e.Start(":8080"))

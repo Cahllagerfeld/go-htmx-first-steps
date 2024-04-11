@@ -37,7 +37,7 @@ func (indexHandler *IndexHandler) indexHandler(c echo.Context) error {
 		return err
 	}
 
-	component := pages.IndexPage(username, *query)
+	component := pages.IndexPage(username, *query, query.Search.IssueCount)
 	return component.Render(context.Background(), c.Response().Writer)
 }
 
