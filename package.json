@@ -7,8 +7,8 @@
     "dev": "run-p server tailwind-dev",
     "build": "make build",
     "server": "air",
-    "tailwind-dev": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --watch",
-    "tailwind-build": "tailwindcss -i ./src/main.css -o ./dist/tailwind.css --minify"
+    "tailwind-dev": "tailwindcss -i ./src/main.css -o ./public/tailwind.css --watch",
+    "tailwind-build": "tailwindcss -i ./src/main.css -o ./public/tailwind.css --minify"
   },
   "keywords": [],
   "author": "",

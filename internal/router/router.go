@@ -12,7 +12,7 @@ func New() *echo.Echo {
 	e.Use(middleware.Logger())
 
 	e.Logger.SetLevel(log.DEBUG)
-	e.Static("/assets", "dist")
+	e.Static("/assets", "public")
 
 	return e
 }
