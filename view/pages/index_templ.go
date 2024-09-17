@@ -16,7 +16,7 @@ import "strconv"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/view/partials"
 import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
 
-func IndexPage(name string, prs graphqlquery.ReviewSearchResult) templ.Component {
+func IndexPage(name string, prs graphqlquery.ReviewSearchResult, issueCount int32) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -63,9 +63,9 @@ func IndexPage(name string, prs graphqlquery.ReviewSearchResult) templ.Component
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(prs.Search.IssueCount)))
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(issueCount)))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 23, Col: 86}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/pages/index.templ`, Line: 23, Col: 75}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -104,7 +104,7 @@ func IndexPage(name string, prs graphqlquery.ReviewSearchResult) templ.Component
 			return templ_7745c5c3_Err
 		})
 		templ_7745c5c3_Err = layout.AuthenticatedLayout(layout.AuthenticatedLayoutProps{
-			SidebarProps: partials.SidebarProps{ReviewAmount: int(prs.Search.IssueCount)},
+			SidebarProps: partials.SidebarProps{ReviewAmount: int(issueCount)},
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
