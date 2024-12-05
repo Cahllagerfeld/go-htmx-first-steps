@@ -3,5 +3,5 @@
 ## Tools used
 
 - Golang with Echo
-- Templ
-- Htmx
+- Templ for templating
+- Htmx for interactions
