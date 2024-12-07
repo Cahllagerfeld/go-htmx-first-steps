@@ -1,6 +1,7 @@
 # HTMX First steps
+
 ## Tools used
 
-- Golang
+- Golang with Echo
 - Templ
 - Htmx
