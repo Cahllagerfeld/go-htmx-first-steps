@@ -4,7 +4,7 @@ import "github.com/shurcooL/githubv4"
 
 type ReviewSearchResult struct {
 	Search struct {
-		IssueCount githubv4.Int
+		IssueCount int32
 		PageInfo   struct {
 			HasNextPage bool
 			EndCursor   string

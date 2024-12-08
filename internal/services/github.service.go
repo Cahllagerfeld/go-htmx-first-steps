@@ -45,3 +45,25 @@ func (githubService *GithubService) GetPrsToReview(client *githubv4.Client, user
 	}
 	return &query, nil
 }
+
+func (gs *GithubService) GetUserRepositories(client *githubv4.Client, username string, pageParams GithubPaginationParams) (*graphqlquery.RepositoryQuery, error) {
+	var query graphqlquery.RepositoryQuery
+	variables := map[string]interface{}{
+		"username": githubv4.String(username),
+		"pageSize": githubv4.Int(pageParams.PageSize),
+	}
+
+	if pageParams.After != "" {
+		variables["after"] = githubv4.String(pageParams.After)
+	} else {
+		variables["after"] = (*githubv4.String)(nil)
+	}
+
+	err := client.Query(context.Background(), &query, variables)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return &query, nil
+}

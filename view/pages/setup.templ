@@ -1,0 +1,26 @@
+package pages
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/view/layout"
+
+import "github.com/Cahllagerfeld/go-htmx-first-steps/internal/graphqlquery"
+import "strconv"
+import "fmt"
+
+templ SetupPage(repos []graphqlquery.Repository, totalCount int32, afterCursor string, hasNextPage bool) {
+	@layout.Base() {
+		<div class="flex flex-col gap-8 min-h-screen w-full items-center justify-center">
+			<h1 class="text-lg font-semibold">Please select your repos ({ strconv.Itoa(int(totalCount)) })</h1>
+			<input placeholder="Search" class="text-zinc-950 px-2 rounded-md py-2"/>
+			<ul class="space-y-4" id="repo-list">
+				for _, item := range repos {
+					<li>
+						{ item.Name }
+					</li>
+				}
+			</ul>
+			if (hasNextPage) {
+				<button hx-get={ fmt.Sprintf("/setup?after=%s", afterCursor) } hx-trigger="click" hx-target="#repo-list" hx-swap="beforeend">Load more</button>
+			}
+		</div>
+	}
+}
