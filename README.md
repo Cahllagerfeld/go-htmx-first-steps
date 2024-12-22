@@ -5,3 +5,7 @@
 - Golang with Echo
 - Templ for templating
 - Htmx for interactions
+
+## Required tool
+
+- Air
