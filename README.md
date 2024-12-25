@@ -8,4 +8,4 @@
 
 ## Required tool
 
-- [Air](https://github.com/air-verse/air)
+- [Air](https://github.com/air-verse/air) Can be installed with `go install github.com/air-verse/air@latest`
