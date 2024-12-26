@@ -6,6 +6,6 @@
 - Templ for templating
 - Htmx for interactions
 
-## Required tool
+## Required tools
 
 - [Air](https://github.com/air-verse/air) Can be installed with `go install github.com/air-verse/air@latest`
